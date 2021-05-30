@@ -8,3 +8,10 @@ function getRandomNumber (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 getRandomNumber(100, 200);
+
+function getFloatRandom (min, max, afterComma) {
+  const result = Math.random() * (max - min + 1) + min;
+  return Number(result.toFixed(afterComma));
+}
+getFloatRandom(55.5, 234.2, 3);
+
