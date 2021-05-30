@@ -9,7 +9,13 @@ function getRandomNumber (min, max) {
 }
 getRandomNumber(100, 200);
 
+// Случайное число с плавающей точкой
 function getFloatRandom (min, max, afterComma) {
+  min = Math.abs(min);
+  max = Math.abs(max);
+  if (min >= max) {
+    return 'Верхняя граница диапазона должна быть больше, чем меньшая!';
+  }
   const result = Math.random() * (max - min + 1) + min;
   return Number(result.toFixed(afterComma));
 }
