@@ -1,4 +1,10 @@
-//Cлучайное целое число в заданном диапазоне
+/**
+ * Получаем случайное целое число из заданного диапазона
+ *
+ * @param {Number} min
+ * @param {Number} max
+ * @return {Number}
+ */
 function getRandomNumber (min, max) {
   min = Math.abs(Math.ceil(min));
   max = Math.abs(Math.floor(max));
@@ -6,7 +12,14 @@ function getRandomNumber (min, max) {
 }
 getRandomNumber(100, 200);
 
-// Случайное число с плавающей точкой
+/**
+ * Получаем случайное число с плавающей точкой из заданного диапазона с регулированием кол-ва знаков после запятой
+ *
+ * @param {Number} min
+ * @param {Number} max
+ * @param {Number} afterComma
+ * @return {Number}
+ */
 function getFloatRandom (min, max, afterComma) {
   min = Math.abs(min);
   max = Math.abs(max);
@@ -17,4 +30,6 @@ function getFloatRandom (min, max, afterComma) {
   return Number(result.toFixed(afterComma));
 }
 getFloatRandom(55.5, 234.2, 3);
+
+// Пока не понял как объединить две функции, несмотря на то, что они очень похожи. Везде есть нюансы, и объединение вижу толбко с помощью ветвления, что еще больше усложнит и расширит код.
 
