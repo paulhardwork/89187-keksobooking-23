@@ -1,18 +1,4 @@
 /**
- * Получаем случайное целое число из заданного диапазона
- *
- * @param {Number} min
- * @param {Number} max
- * @return {Number}
- */
-function getRandomNumber (min, max) {
-  min = Math.abs(Math.ceil(min));
-  max = Math.abs(Math.floor(max));
-  return min >= max ? 'Верхняя граница диапазона должна быть больше, чем меньшая!' : Math.floor(Math.random() * (max - min + 1)) + min;
-}
-getRandomNumber(100, 200);
-
-/**
  * Получаем случайное число с плавающей точкой из заданного диапазона с регулированием кол-ва знаков после запятой
  *
  * @param {Number} min
@@ -20,7 +6,7 @@ getRandomNumber(100, 200);
  * @param {Number} afterComma
  * @return {Number}
  */
-function getFloatRandom (min, max, afterComma) {
+const getRandomNumber = function (min, max, afterComma) {
   min = Math.abs(min);
   max = Math.abs(max);
   if (min >= max) {
@@ -28,8 +14,16 @@ function getFloatRandom (min, max, afterComma) {
   }
   const result = Math.random() * (max - min + 1) + min;
   return Number(result.toFixed(afterComma));
-}
-getFloatRandom(55.5, 234.2, 3);
+};
 
-// Пока не понял как объединить две функции, несмотря на то, что они очень похожи. Везде есть нюансы, и объединение вижу толбко с помощью ветвления, что еще больше усложнит и расширит код.
-
+/**
+ * Получаем случайное целое число из заданного диапазона
+ *
+ * @param {Number} min
+ * @param {Number} max
+ * @return {Number}
+ */
+const getRandomIntegerNumber = function (min, max) {
+  return getRandomNumber(min, max, 0);
+};
+getRandomIntegerNumber(-100.23, 200.45);
