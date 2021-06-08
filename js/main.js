@@ -12,7 +12,7 @@ const getRandomNumber = function (min, max, afterComma) {
   if (min >= max) {
     return 'Верхняя граница диапазона должна быть больше, чем меньшая!';
   }
-  const result = Math.random() * (max - min + 1) + min;
+  const result = Math.random() * (max - min) + min;
   return Number(result.toFixed(afterComma));
 };
 
@@ -24,7 +24,7 @@ const getRandomNumber = function (min, max, afterComma) {
  * @return {Number}
  */
 const getRandomIntegerNumber = function (min, max) {
-  return getRandomNumber(min, max, 0);
+  return getRandomNumber(min, max);
 };
 
 const getRandomArrayElement = function (array) {
@@ -40,6 +40,8 @@ const getRandomList = function (array) {
     swap = rightBorderNewArray;
     rightBorderNewArray = leftBorderNewArray;
     leftBorderNewArray = swap;
+  } else if (rightBorderNewArray === leftBorderNewArray) {
+    rightBorderNewArray++;
   }
   return array.slice(leftBorderNewArray, rightBorderNewArray);
 };
@@ -53,24 +55,21 @@ const ROOM_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-const avatarPhotos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const LOWER_LAT = 35.65000;
 const UPPER_LAT = 35.70000;
 const LOWER_LNG = 139.70000;
 const UPPER_LNG = 139.80000;
 
-const createAdvert = function (photos) {
+const createAdvert = function (index) {
+  const locationLat = getRandomNumber(LOWER_LAT, UPPER_LAT, 5);
+  const locationLng = getRandomNumber(LOWER_LNG, UPPER_LNG, 5);
   return {
     author: {
-      avatar: `img/avatars/user0${photos[0]}.png`,
-    },
-    location: {
-      lat: getRandomNumber(LOWER_LAT, UPPER_LAT, 5),
-      lng: getRandomNumber(LOWER_LNG, UPPER_LNG, 5),
+      avatar: `img/avatars/user0${index + 1}.png`,
     },
     offer: {
       title: 'Объявление о сдаче комнаты',
-      address: '',
+      address: `${locationLat}, ${locationLng}`,
       price: getRandomIntegerNumber(10000, 100000),
       type: getRandomArrayElement(BUILDING_TYPES),
       rooms: getRandomIntegerNumber(1, 5),
@@ -81,8 +80,12 @@ const createAdvert = function (photos) {
       description: 'Уютная, теплая, твоя',
       photos: getRandomList(ROOM_PHOTOS),
     },
+    location: {
+      lat: locationLat,
+      lng: locationLng,
+    },
   };
 };
 
-const advertsList = new Array(ADVERTS_QUANTITY).fill(null).map(() => createAdvert(avatarPhotos));
-console.log(advertsList);
+const advertsList = new Array(ADVERTS_QUANTITY).fill(null).map((value, index) => createAdvert(index));
+getRandomList(advertsList); // Временный вызов для использования массива
