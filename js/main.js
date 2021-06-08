@@ -87,5 +87,5 @@ const createAdvert = function (index) {
   };
 };
 
-const advertsList = new Array(ADVERTS_QUANTITY).fill(null).map((value, index) => createAdvert(index));
+const advertsList = new Array(ADVERTS_QUANTITY).fill(null).map((__, index) => createAdvert(index));
 getRandomList(advertsList); // Временный вызов для использования массива
