@@ -27,11 +27,23 @@ const getRandomIntegerNumber = function (min, max) {
   return getRandomNumber(min, max);
 };
 
+/**
+ * Получаем случайный элемент из входного массива
+ *
+ * @param {Array} array
+ * @return {any}
+ */
 const getRandomArrayElement = function (array) {
   const elementNumber = getRandomIntegerNumber(0, array.length - 1);
   return array[elementNumber];
 };
 
+/**
+ * Получаем копию массива из случайной длины и значений входного
+ *
+ * @param {Array} array
+ * @return {Array}
+ */
 const getRandomList = function (array) {
   let leftBorderNewArray = getRandomIntegerNumber(0, array.length - 1);
   let rightBorderNewArray = getRandomIntegerNumber(0, array.length - 1);
@@ -60,6 +72,12 @@ const UPPER_LAT = 35.70000;
 const LOWER_LNG = 139.70000;
 const UPPER_LNG = 139.80000;
 
+/**
+ * Получаем объект, сгенерированный по заданным условиям
+ *
+ * @param {Number} index
+ * @return {Object}
+ */
 const createAdvert = function (index) {
   const locationLat = getRandomNumber(LOWER_LAT, UPPER_LAT, 5);
   const locationLng = getRandomNumber(LOWER_LNG, UPPER_LNG, 5);
