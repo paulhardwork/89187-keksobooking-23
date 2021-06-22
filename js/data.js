@@ -8,11 +8,7 @@ const ROOM_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-const LOWER_LAT = 35.65000;
-const UPPER_LAT = 35.70000;
-const LOWER_LNG = 139.70000;
-const UPPER_LNG = 139.80000;
-
+const Location = {LOWER_LAT: 35.65000, UPPER_LAT: 35.70000, LOWER_LNG: 139.70000, UPPER_LNG: 139.80000};
 /**
  * Получаем объект, сгенерированный по заданным условиям
  *
@@ -20,8 +16,8 @@ const UPPER_LNG = 139.80000;
  * @return {Object}
  */
 const createAdvert = function (index) {
-  const locationLat = getRandomNumber(LOWER_LAT, UPPER_LAT, 5);
-  const locationLng = getRandomNumber(LOWER_LNG, UPPER_LNG, 5);
+  const locationLat = getRandomNumber(Location.LOWER_LAT, Location.UPPER_LAT, 5);
+  const locationLng = getRandomNumber(Location.LOWER_LNG, Location.UPPER_LNG, 5);
   return {
     author: {
       avatar: `img/avatars/user0${index + 1}.png`,
