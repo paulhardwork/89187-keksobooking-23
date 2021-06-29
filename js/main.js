@@ -29,6 +29,7 @@ similarAdverts.forEach((advert) => {
   similarAdvert.querySelector('.popup__type').textContent = buildingTypes[advert.offer.type];
   similarAdvert.querySelector('.popup__text--capacity').textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
   similarAdvert.querySelector('.popup__text--time').textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`;
+
   const featureList = similarAdvert.querySelector('.popup__features');
   const modifiers = advert.offer.features.map((feature) => `popup__feature--${feature}`);
   featureList.querySelectorAll('.popup__feature').forEach((element) => {
@@ -37,5 +38,22 @@ similarAdverts.forEach((advert) => {
       element.remove();
     }
   });
+
+  similarAdvert.querySelector('.popup__description').textContent = advert.offer.description;
+
+  const photosContainer = similarAdvert.querySelector('.popup__photos');
+  const photosList = photosContainer.querySelectorAll('.popup__photo');
+  const advertPhotos = advert.offer.photos;
+  if (advertPhotos.length === 1) {
+    photosList[0].src = advertPhotos[0];
+  } else {
+    photosList[0].remove();
+    advertPhotos.forEach((photoUrl) => {
+      photosContainer.insertAdjacentHTML('beforeend', '<img src="" class="popup__photo" width="40" height="40" alt="Фотография отеля">');
+      photosContainer.lastChild.src = photoUrl;
+    });
+  }
+
+  similarAdvert.querySelector('.popup__avatar').src = advert.author.avatar;
   mapCanvas.appendChild(similarAdvert);
 });
