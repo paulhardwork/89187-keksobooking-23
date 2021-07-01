@@ -52,7 +52,13 @@ similarAdverts.forEach((advert) => {
       photosContainer.lastChild.src = photoUrl;
     });
   }
-
   similarAdvert.querySelector('.popup__avatar').src = advert.author.avatar;
-  mapCanvas.appendChild(similarAdvert);
+  const advertFields = similarAdvert.querySelector('.popup').childNodes;
+  for (let index = 0; index < advertFields.length; index++) {
+    if (advertFields[index].textContent === '' || advertFields[index].innerHTML === '' || advertFields[index].src === '') {
+      advertFields[index].classList.add('hidden');
+    }
+  }
+  similarListFragment.appendChild(similarAdvert);
 });
+mapCanvas.appendChild(similarListFragment);
