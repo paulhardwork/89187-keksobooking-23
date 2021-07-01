@@ -1,16 +1,4 @@
-import {createAdvert} from './data.js';
-
-const ADVERTS_QUANTITY = 10;
-const getAdvertsList = function (advertsCount) {
-  return new Array(advertsCount).fill(null).map((__, index) => createAdvert(index));
-};
-
-const mapContainer = document.querySelector('.map');
-const mapCanvas = mapContainer.querySelector('#map-canvas');
-const similarAdvertsTemplate = document.querySelector('#card').content;
-
-const similarAdverts = getAdvertsList(ADVERTS_QUANTITY);
-const similarListFragment = document.createDocumentFragment();
+const newAdvertsTemplate = document.querySelector('#card').content;
 
 const buildingTypes = {
   flat: 'Квартира',
@@ -20,16 +8,17 @@ const buildingTypes = {
   hotel: 'Отель',
 };
 
-similarAdverts.forEach((advert) => {
-  const similarAdvert = similarAdvertsTemplate.cloneNode(true);
-  similarAdvert.querySelector('.popup__title').textContent = advert.offer.title;
-  similarAdvert.querySelector('.popup__text--address').textContent = advert.offer.address;
-  similarAdvert.querySelector('.popup__text--price').textContent = `${advert.offer.price} ₽/ночь`;
-  similarAdvert.querySelector('.popup__type').textContent = buildingTypes[advert.offer.type];
-  similarAdvert.querySelector('.popup__text--capacity').textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
-  similarAdvert.querySelector('.popup__text--time').textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`;
+const getNewAdvert = function (advert) {
+  const newAdvert = newAdvertsTemplate.cloneNode(true);
+  newAdvert.querySelector('.popup__avatar').src = advert.author.avatar;
+  newAdvert.querySelector('.popup__title').textContent = advert.offer.title;
+  newAdvert.querySelector('.popup__text--address').textContent = advert.offer.address;
+  newAdvert.querySelector('.popup__text--price').textContent = `${advert.offer.price} ₽/ночь`;
+  newAdvert.querySelector('.popup__type').textContent = buildingTypes[advert.offer.type];
+  newAdvert.querySelector('.popup__text--capacity').textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
+  newAdvert.querySelector('.popup__text--time').textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`;
 
-  const featureList = similarAdvert.querySelector('.popup__features');
+  const featureList = newAdvert.querySelector('.popup__features');
   const modifiers = advert.offer.features.map((feature) => `popup__feature--${feature}`);
   featureList.querySelectorAll('.popup__feature').forEach((element) => {
     const modifier = element.classList[1];
@@ -38,9 +27,9 @@ similarAdverts.forEach((advert) => {
     }
   });
 
-  similarAdvert.querySelector('.popup__description').textContent = advert.offer.description;
+  newAdvert.querySelector('.popup__description').textContent = advert.offer.description;
 
-  const photosContainer = similarAdvert.querySelector('.popup__photos');
+  const photosContainer = newAdvert.querySelector('.popup__photos');
   const photosList = photosContainer.querySelectorAll('.popup__photo');
   const advertPhotos = advert.offer.photos;
   if (advertPhotos.length === 1) {
@@ -52,13 +41,13 @@ similarAdverts.forEach((advert) => {
       photosContainer.lastChild.src = photoUrl;
     });
   }
-  similarAdvert.querySelector('.popup__avatar').src = advert.author.avatar;
-  const advertFields = similarAdvert.querySelector('.popup').childNodes;
+  const advertFields = newAdvert.querySelector('.popup').childNodes;
   for (let index = 0; index < advertFields.length; index++) {
-    if (advertFields[index].textContent === '' || advertFields[index].innerHTML === '' || advertFields[index].src === '') {
+    if ((advertFields[index].textContent === '' && advertFields[index].innerHTML === '' &&  advertFields[index].tagName !== 'IMG') || (advertFields[index].src === '' && advertFields[index].tagName === 'IMG')) {
       advertFields[index].classList.add('hidden');
     }
   }
-  similarListFragment.appendChild(similarAdvert);
-});
-mapCanvas.appendChild(similarListFragment);
+  return newAdvert;
+};
+
+export {getNewAdvert};
