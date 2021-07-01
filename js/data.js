@@ -23,7 +23,7 @@ const createAdvert = function (index) {
       avatar: `img/avatars/user0${index + 1}.png`,
     },
     offer: {
-      title: '',
+      title: 'Объявление о сдаче комнаты',
       address: `${locationLat}, ${locationLng}`,
       price: getRandomIntegerNumber(10000, 100000),
       type: getRandomArrayElement(BUILDING_TYPES),
