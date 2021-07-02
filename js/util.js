@@ -52,10 +52,10 @@ const getRandomList = function (array) {
     swap = rightBorderNewArray;
     rightBorderNewArray = leftBorderNewArray;
     leftBorderNewArray = swap;
-  } else if (rightBorderNewArray === leftBorderNewArray) {
+  } /*else if (rightBorderNewArray === leftBorderNewArray) {
     rightBorderNewArray++;
-  }
-  return array.slice(leftBorderNewArray, rightBorderNewArray);
+  }*/
+  return array.slice(leftBorderNewArray, rightBorderNewArray + 1);
 };
 
 export {getRandomNumber, getRandomIntegerNumber, getRandomArrayElement, getRandomList};
