@@ -1,5 +1,6 @@
 import {getAdvertsList} from './data.js';
 import {getNewAdvert} from './adverts.js';
+import './form.js';
 
 const ADVERTS_QUANTITY = 10;
 const newAdverts = getAdvertsList(ADVERTS_QUANTITY);
