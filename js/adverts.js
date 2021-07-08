@@ -30,18 +30,19 @@ const getNewAdvert = function (advert) {
   newAdvert.querySelector('.popup__description').textContent = advert.offer.description;
 
   const photosContainer = newAdvert.querySelector('.popup__photos');
-  const photosList = photosContainer.querySelectorAll('.popup__photo');
+  const photoElement = photosContainer.querySelector('.popup__photo');
   const advertPhotos = advert.offer.photos;
   if (advertPhotos.length === 1) {
-    photosList[0].src = advertPhotos[0];
+    photoElement.src = advertPhotos[0];
   } else {
-    photosList[0].remove();
     advertPhotos.forEach((photoUrl) => {
-      photosContainer.insertAdjacentHTML('beforeend', '<img src="" class="popup__photo" width="40" height="40" alt="Фотография отеля">');
-      photosContainer.lastChild.src = photoUrl;
+      const newPhoto = photoElement.cloneNode();
+      photosContainer.append(newPhoto);
+      photosContainer.lastElementChild.src = photoUrl;
     });
+    photosContainer.firstElementChild.remove();
   }
-  const advertFields = newAdvert.querySelector('.popup').childNodes;
+  const advertFields = newAdvert.querySelector('.popup').children;
   for (let index = 0; index < advertFields.length; index++) {
     if ((advertFields[index].textContent === '' && advertFields[index].innerHTML === '' &&  advertFields[index].tagName !== 'IMG') || (advertFields[index].src === '' && advertFields[index].tagName === 'IMG')) {
       advertFields[index].classList.add('hidden');
