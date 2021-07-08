@@ -1,5 +1,6 @@
 import {getRandomNumber, getRandomIntegerNumber, getRandomArrayElement, getRandomList} from './util.js';
 
+const LOCATION_AFTER_COMMA = 5;
 const BUILDING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const IMPORTANT_TIMES = ['12:00', '13:00', '14:00'];
 const ROOM_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -16,8 +17,8 @@ const Location = {LOWER_LAT: 35.65000, UPPER_LAT: 35.70000, LOWER_LNG: 139.70000
  * @return {Object}
  */
 const createAdvert = function (index) {
-  const locationLat = getRandomNumber(Location.LOWER_LAT, Location.UPPER_LAT, 5);
-  const locationLng = getRandomNumber(Location.LOWER_LNG, Location.UPPER_LNG, 5);
+  const locationLat = getRandomNumber(Location.LOWER_LAT, Location.UPPER_LAT, LOCATION_AFTER_COMMA);
+  const locationLng = getRandomNumber(Location.LOWER_LNG, Location.UPPER_LNG, LOCATION_AFTER_COMMA);
   return {
     author: {
       avatar: `img/avatars/user0${index + 1}.png`,
