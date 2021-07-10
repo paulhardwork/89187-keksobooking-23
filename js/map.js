@@ -1,4 +1,6 @@
-import { activateDocument, deactivateDocument } from './form.js';
+import {getNewAdvert} from './adverts.js';
+import {getAdvertsList} from './data.js';
+import {activateDocument, deactivateDocument} from './form.js';
 
 deactivateDocument();
 const addressField = document.querySelector('#address');
@@ -40,4 +42,34 @@ mainMarker.addTo(cityMap);
 mainMarker.on('moveend', (evt) => {
   const currentLocation = evt.target.getLatLng();
   addressField.value = `${Number(currentLocation.lat.toFixed(5))}, ${Number(currentLocation.lng.toFixed(5))}`;
+});
+
+const ADVERTS_QUANTITY = 10;
+const newAdverts = getAdvertsList(ADVERTS_QUANTITY);
+
+newAdverts.forEach((advert) => {
+  const lat = advert.location.lat;
+  const lng = advert.location.lng;
+
+  const similarAdvertIcon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const similarAdvertMarker = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: similarAdvertIcon,
+    },
+  );
+
+  similarAdvertMarker
+    .addTo(cityMap)
+    .bindPopup(
+      getNewAdvert(advert),
+    );
 });
