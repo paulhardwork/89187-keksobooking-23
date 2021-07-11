@@ -34,9 +34,9 @@ const initForm = function () {
   const toggleOptionsCapacity = function (valueRooms) {
     for (let i = 0; i < optionsCapacity.length; i++) {
       if (valueRooms === ROOMS_NOT_GUESTS) {
-        optionsCapacity[i].value !== VALUE_FOR_HUNDRED_ROOMS ? optionsCapacity[i].disabled = true : optionsCapacity[i].disabled = false;
+        optionsCapacity[i].disabled = optionsCapacity[i].value !== VALUE_FOR_HUNDRED_ROOMS;
       } else {
-        optionsCapacity[i].value > selecterRoomNumber.value || optionsCapacity[i].value === VALUE_FOR_HUNDRED_ROOMS ? optionsCapacity[i].disabled = true : optionsCapacity[i].disabled = false;
+        optionsCapacity[i].disabled = optionsCapacity[i].value > selecterRoomNumber.value || optionsCapacity[i].value === VALUE_FOR_HUNDRED_ROOMS;
       }
     }
   };
@@ -55,7 +55,7 @@ const initForm = function () {
 
   priceInput.addEventListener('invalid', () => {
     if (priceInput.value > MAX_PRICE) {
-      priceInput.setCustomValidity('Цена не может превышать 1000000 рублей за ночь!');
+      priceInput.setCustomValidity(`Цена не может превышать ${MAX_PRICE} рублей за ночь!`);
     } else {
       priceInput.setCustomValidity('');
     }
