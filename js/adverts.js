@@ -1,4 +1,4 @@
-const newAdvertsTemplate = document.querySelector('#card').content;
+const newAdvertsTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const buildingTypes = {
   flat: 'Квартира',
@@ -42,7 +42,7 @@ const getNewAdvert = function (advert) {
     });
     photosContainer.firstElementChild.remove();
   }
-  const advertFields = newAdvert.querySelector('.popup').children;
+  const advertFields = newAdvert.children;
   for (let index = 0; index < advertFields.length; index++) {
     if ((advertFields[index].textContent === '' && advertFields[index].innerHTML === '' &&  advertFields[index].tagName !== 'IMG') || (advertFields[index].src === '' && advertFields[index].tagName === 'IMG')) {
       advertFields[index].classList.add('hidden');
