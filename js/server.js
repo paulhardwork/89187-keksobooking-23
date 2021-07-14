@@ -1,23 +1,9 @@
-import {createAdvertMarker} from './map.js';
+import {createAdvertMarker, resetDocumentForms} from './map.js';
+import {successSendingMessage, errorSendingMessage} from './form.js';
+import {showServerErrorMessage} from './util.js';
 
-const ALERT_SHOW_TIME = 5000;
-const showErrorMessage = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-  alertContainer.textContent = message;
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
+const showMessage = function (block) {
+  block.classList.remove('hidden');
 };
 
 const getData = function () {
@@ -26,7 +12,7 @@ const getData = function () {
       if (response.ok) {
         return response;
       } else {
-        showErrorMessage(`${response.status} — ${response.statusText}`);
+        showServerErrorMessage(`${response.status} — ${response.statusText}`);
         throw new Error(`${response.status} — ${response.statusText}`);
       }
     })
@@ -34,11 +20,21 @@ const getData = function () {
     .then((adverts) => {
       adverts.forEach((advert) => createAdvertMarker(advert));
     })
-    .catch((error) => showErrorMessage(error));
+    .catch((error) => showServerErrorMessage(error));
 };
 
-const sendData = function () {
-
+const sendData = function (body) {
+  fetch('https://23.javascript.pages.academy/keksbooking', {
+    method: 'POST',
+    body: body,
+  })
+    .then((response) => {
+      if (response.ok) {
+        resetDocumentForms();
+        showMessage(successSendingMessage);
+      } showMessage(errorSendingMessage);
+    })
+    .catch(() => showMessage(errorSendingMessage));
 };
 
 export {getData, sendData};
