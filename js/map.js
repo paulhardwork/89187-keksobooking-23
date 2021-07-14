@@ -5,6 +5,8 @@ deactivateDocument();
 const LAT_TOKYO = 35.68950;
 const LNG_TOKYO = 139.69171;
 const addressField = document.querySelector('#address');
+const addingAdvertForm = document.querySelector('.ad-form');
+const filterAdvertsForm = document.querySelector('.map__filters');
 const cityMap = L.map('map-canvas')
   .on('load', () => {
     activateDocument();
@@ -72,4 +74,14 @@ const createAdvertMarker = function (advert) {
     );
 };
 
-export {createAdvertMarker};
+const resetDocumentForms = function () {
+  filterAdvertsForm.reset();
+  addingAdvertForm.reset();
+  mainMarker.setLatLng({
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO,
+  });
+  addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
+};
+
+export {createAdvertMarker, resetDocumentForms};
