@@ -1,7 +1,7 @@
-import {initForm} from './form.js';
-import {initMap} from './map.js';
+import './map.js';
+import './form.js';
+import {getData} from './server.js';
 
-initMap();
-initForm();
+getData();
 
 

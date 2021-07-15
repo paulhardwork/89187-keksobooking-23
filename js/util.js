@@ -1,3 +1,4 @@
+const ALERT_SHOW_TIME = 5000;
 /**
  * Получаем случайное число с плавающей точкой из заданного диапазона с регулированием кол-ва знаков после запятой
  *
@@ -56,4 +57,27 @@ const getRandomList = function (array) {
   return array.slice(leftBorderNewArray, rightBorderNewArray + 1);
 };
 
-export {getRandomNumber, getRandomIntegerNumber, getRandomArrayElement, getRandomList};
+const isEscEvent = function (evt) {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+const showServerErrorMessage = function (message) {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+  alertContainer.textContent = message;
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export {getRandomNumber, getRandomIntegerNumber, getRandomArrayElement, getRandomList, isEscEvent, showServerErrorMessage};
