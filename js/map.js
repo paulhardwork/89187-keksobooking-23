@@ -92,8 +92,7 @@ const resetDocumentForms = function () {
 
 const renderActualMarkers = function (adverts) {
   allMarkers.clearLayers();
-  const fa = adverts.filter(filterSimilarAdverts);
-  fa
+  adverts.filter(filterSimilarAdverts)
     .slice(0, MARKERS_QUANTITY)
     .forEach((advert) => createAdvertMarker(advert));
 };

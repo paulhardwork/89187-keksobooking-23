@@ -29,6 +29,9 @@ const resetFormButton = document.querySelector('.ad-form__reset');
 const activateDocument = function () {
   addingAdvertForm.classList.remove('ad-form--disabled');
   addingAdvertFields.disabled = false;
+};
+
+const activateFiltersForm = function () {
   filterAdvertsForm.classList.remove('map__filters--disabled');
   filterAdvertsFields.disabled = false;
 };
@@ -108,16 +111,23 @@ errorMessageButton.addEventListener('click', () => {
   errorSendingMessage.classList.add('hidden');
 });
 
-resetFormButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetDocumentForms();
-});
+const setResetAdvertForm = function (onReset) {
+  resetFormButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetDocumentForms();
+    onReset();
+  });
+};
 
-addingAdvertForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  sendData(formData);
-});
+const setSubmitAdvertForm = function (onSubmit) {
+  addingAdvertForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(formData);
+    resetDocumentForms();
+    onSubmit();
+  });
+};
 
 const filterSimilarAdverts = function (advert) {
 
@@ -182,4 +192,4 @@ const getFilterChange = function (afterChange) {
   });
 };
 
-export {deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, successSendingMessage, errorSendingMessage};
+export {deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, activateFiltersForm, setSubmitAdvertForm, setResetAdvertForm, successSendingMessage, errorSendingMessage};
