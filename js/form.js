@@ -116,13 +116,31 @@ addingAdvertForm.addEventListener('submit', (evt) => {
   sendData(formData);
 });
 
-const filterSimilarAdverts = function (adverts) {
-  if (filterHousingTypeField.value === 'any') {
-    return adverts;
-  } else {
-    const filteredAdverts = adverts.filter((advert) => advert.offer.type === filterHousingTypeField.value);
-    return filteredAdverts;
+const filterSimilarAdverts = function (advert) {
+  let isType = true;
+  let isPrice = true;
+  let isRooms = true;
+  let isGuests = true;
+  let isFeatures = true;
+
+  const choosenType = filterHousingTypeField.value;
+  const choosenFeatures = filterAdvertsForm.querySelectorAll('input[name="features"]:checked');
+
+  if (choosenType !== 'any') {
+    isType = choosenType === advert.offer.type;
   }
+
+  if (choosenFeatures.length) {
+    if (advert.offer.features !== undefined) {
+      choosenFeatures.forEach((feature) => {
+        if (!advert.offer.features.includes(feature.value)) {
+          isFeatures = false;
+        }
+      });
+    } else { isFeatures = false; }
+  }
+
+  return isType && isPrice && isRooms && isGuests && isFeatures;
 };
 
 const getFilterChange = function (afterChange) {

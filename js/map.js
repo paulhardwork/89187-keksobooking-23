@@ -1,6 +1,6 @@
 import {renderNewAdvert} from './adverts.js';
 import {activateDocument, deactivateDocument} from './form.js';
-import {filterHousingType} from './form.js';
+import {filterSimilarAdverts} from './form.js';
 
 const LAT_TOKYO = 35.68950;
 const LNG_TOKYO = 139.69171;
@@ -92,7 +92,8 @@ const resetDocumentForms = function () {
 
 const renderActualMarkers = function (adverts) {
   allMarkers.clearLayers();
-  filterHousingType(adverts)
+  const fa = adverts.filter(filterSimilarAdverts);
+  fa
     .slice(0, MARKERS_QUANTITY)
     .forEach((advert) => createAdvertMarker(advert));
 };
