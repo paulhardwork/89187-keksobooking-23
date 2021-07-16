@@ -1,9 +1,13 @@
 import {renderNewAdvert} from './adverts.js';
 import {activateDocument, deactivateDocument} from './form.js';
+import {filterHousingType} from './form.js';
 
-deactivateDocument();
 const LAT_TOKYO = 35.68950;
 const LNG_TOKYO = 139.69171;
+const MARKERS_QUANTITY = 10;
+
+deactivateDocument();
+
 const addressField = document.querySelector('#address');
 const addingAdvertForm = document.querySelector('.ad-form');
 const filterAdvertsForm = document.querySelector('.map__filters');
@@ -47,6 +51,8 @@ mainMarker.on('moveend', (evt) => {
   addressField.value = `${Number(currentLocation.lat.toFixed(5))}, ${Number(currentLocation.lng.toFixed(5))}`;
 });
 
+const allMarkers = L.layerGroup().addTo(cityMap);
+
 const createAdvertMarker = function (advert) {
   const lat = advert.location.lat;
   const lng = advert.location.lng;
@@ -68,7 +74,7 @@ const createAdvertMarker = function (advert) {
   );
 
   similarAdvertMarker
-    .addTo(cityMap)
+    .addTo(allMarkers)
     .bindPopup(
       renderNewAdvert(advert),
     );
@@ -84,4 +90,11 @@ const resetDocumentForms = function () {
   addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
 };
 
-export {createAdvertMarker, resetDocumentForms};
+const renderActualMarkers = function (adverts) {
+  allMarkers.clearLayers();
+  filterHousingType(adverts)
+    .slice(0, MARKERS_QUANTITY)
+    .forEach((advert) => createAdvertMarker(advert));
+};
+
+export {createAdvertMarker, resetDocumentForms, renderActualMarkers};
