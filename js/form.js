@@ -9,17 +9,19 @@ const SELECTED_QUANTITY_ROOMS = 1;
 const ROOMS_NOT_GUESTS = '100';
 const VALUE_FOR_HUNDRED_ROOMS = '0';
 
-const addingAdvertForm = document.querySelector('.ad-form');
-const addingAdvertFields = addingAdvertForm.querySelectorAll('fieldset');
+
 const filterAdvertsForm = document.querySelector('.map__filters');
 const filterAdvertsFields = filterAdvertsForm.children;
-const resetFormButton = document.querySelector('.ad-form__reset');
+const filterHousingTypeField = filterAdvertsForm.querySelector('#housing-type');
 
+const addingAdvertForm = document.querySelector('.ad-form');
+const addingAdvertFields = addingAdvertForm.querySelectorAll('fieldset');
 const advertTitleInput = document.querySelector('#title');
 const priceInput = document.querySelector('#price');
 const selecterRoomNumber = document.querySelector('#room_number');
 const selecterGuestQuantity = document.querySelector('#capacity');
 const optionsCapacity = selecterGuestQuantity.querySelectorAll('option');
+const resetFormButton = document.querySelector('.ad-form__reset');
 
 const activateDocument = function () {
   addingAdvertForm.classList.remove('ad-form--disabled');
@@ -114,4 +116,19 @@ addingAdvertForm.addEventListener('submit', (evt) => {
   sendData(formData);
 });
 
-export {deactivateDocument, activateDocument, successSendingMessage, errorSendingMessage};
+const filterSimilarAdverts = function (adverts) {
+  if (filterHousingTypeField.value === 'any') {
+    return adverts;
+  } else {
+    const filteredAdverts = adverts.filter((advert) => advert.offer.type === filterHousingTypeField.value);
+    return filteredAdverts;
+  }
+};
+
+const getFilterChange = function (afterChange) {
+  filterAdvertsForm.addEventListener('change', () => {
+    afterChange();
+  });
+};
+
+export {deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, successSendingMessage, errorSendingMessage};
