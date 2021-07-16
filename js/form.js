@@ -13,6 +13,9 @@ const VALUE_FOR_HUNDRED_ROOMS = '0';
 const filterAdvertsForm = document.querySelector('.map__filters');
 const filterAdvertsFields = filterAdvertsForm.children;
 const filterHousingTypeField = filterAdvertsForm.querySelector('#housing-type');
+const filterHousingPriceField = filterAdvertsForm.querySelector('#housing-price');
+const filterHousingRoomsField = filterAdvertsForm.querySelector('#housing-rooms');
+const filterHousingGuestsField = filterAdvertsForm.querySelector('#housing-guests');
 
 const addingAdvertForm = document.querySelector('.ad-form');
 const addingAdvertFields = addingAdvertForm.querySelectorAll('fieldset');
@@ -117,17 +120,47 @@ addingAdvertForm.addEventListener('submit', (evt) => {
 });
 
 const filterSimilarAdverts = function (advert) {
+
+  const RANGE = {
+    min: 10000,
+    max: 50000,
+  };
+
   let isType = true;
   let isPrice = true;
   let isRooms = true;
   let isGuests = true;
   let isFeatures = true;
 
+  const advertPrice = advert.offer.price;
+  let advertPriceString = '';
   const choosenType = filterHousingTypeField.value;
+  const choosenPrice = filterHousingPriceField.value;
+  const choosenRooms = filterHousingRoomsField.value.toString();
+  const choosenGuests = filterHousingGuestsField.value.toString();
   const choosenFeatures = filterAdvertsForm.querySelectorAll('input[name="features"]:checked');
 
   if (choosenType !== 'any') {
     isType = choosenType === advert.offer.type;
+  }
+
+  if (choosenRooms !== 'any') {
+    isRooms = choosenRooms === advert.offer.rooms.toString();
+  }
+
+  if (choosenGuests !== 'any') {
+    isGuests = choosenGuests === advert.offer.guests.toString();
+  }
+
+  if (choosenPrice !== 'any') {
+    if (advertPrice < RANGE.min) {
+      advertPriceString = 'low';
+    } else if (advertPrice > RANGE.min && advertPrice < RANGE.max) {
+      advertPriceString = 'middle';
+    } else if (advertPrice > RANGE.max){
+      advertPriceString = 'high';
+    }
+    isPrice = choosenPrice === advertPriceString;
   }
 
   if (choosenFeatures.length) {
