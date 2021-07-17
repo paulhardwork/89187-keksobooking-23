@@ -9,21 +9,29 @@ const SELECTED_QUANTITY_ROOMS = 1;
 const ROOMS_NOT_GUESTS = '100';
 const VALUE_FOR_HUNDRED_ROOMS = '0';
 
-const addingAdvertForm = document.querySelector('.ad-form');
-const addingAdvertFields = addingAdvertForm.querySelectorAll('fieldset');
+
 const filterAdvertsForm = document.querySelector('.map__filters');
 const filterAdvertsFields = filterAdvertsForm.children;
-const resetFormButton = document.querySelector('.ad-form__reset');
+const filterHousingTypeField = filterAdvertsForm.querySelector('#housing-type');
+const filterHousingPriceField = filterAdvertsForm.querySelector('#housing-price');
+const filterHousingRoomsField = filterAdvertsForm.querySelector('#housing-rooms');
+const filterHousingGuestsField = filterAdvertsForm.querySelector('#housing-guests');
 
+const addingAdvertForm = document.querySelector('.ad-form');
+const addingAdvertFields = addingAdvertForm.querySelectorAll('fieldset');
 const advertTitleInput = document.querySelector('#title');
 const priceInput = document.querySelector('#price');
 const selecterRoomNumber = document.querySelector('#room_number');
 const selecterGuestQuantity = document.querySelector('#capacity');
 const optionsCapacity = selecterGuestQuantity.querySelectorAll('option');
+const resetFormButton = document.querySelector('.ad-form__reset');
 
 const activateDocument = function () {
   addingAdvertForm.classList.remove('ad-form--disabled');
   addingAdvertFields.disabled = false;
+};
+
+const activateFiltersForm = function () {
   filterAdvertsForm.classList.remove('map__filters--disabled');
   filterAdvertsFields.disabled = false;
 };
@@ -103,15 +111,85 @@ errorMessageButton.addEventListener('click', () => {
   errorSendingMessage.classList.add('hidden');
 });
 
-resetFormButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetDocumentForms();
-});
+const setResetAdvertForm = function (onReset) {
+  resetFormButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetDocumentForms();
+    onReset();
+  });
+};
 
-addingAdvertForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  sendData(formData);
-});
+const setSubmitAdvertForm = function (onSubmit) {
+  addingAdvertForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(formData);
+    resetDocumentForms();
+    onSubmit();
+  });
+};
 
-export {deactivateDocument, activateDocument, successSendingMessage, errorSendingMessage};
+const filterSimilarAdverts = function (advert) {
+
+  const RANGE = {
+    min: 10000,
+    max: 50000,
+  };
+
+  let isType = true;
+  let isPrice = true;
+  let isRooms = true;
+  let isGuests = true;
+  let isFeatures = true;
+
+  const advertPrice = advert.offer.price;
+  let advertPriceString = '';
+  const choosenType = filterHousingTypeField.value;
+  const choosenPrice = filterHousingPriceField.value;
+  const choosenRooms = filterHousingRoomsField.value.toString();
+  const choosenGuests = filterHousingGuestsField.value.toString();
+  const choosenFeatures = filterAdvertsForm.querySelectorAll('input[name="features"]:checked');
+
+  if (choosenType !== 'any') {
+    isType = choosenType === advert.offer.type;
+  }
+
+  if (choosenRooms !== 'any') {
+    isRooms = choosenRooms === advert.offer.rooms.toString();
+  }
+
+  if (choosenGuests !== 'any') {
+    isGuests = choosenGuests === advert.offer.guests.toString();
+  }
+
+  if (choosenPrice !== 'any') {
+    if (advertPrice < RANGE.min) {
+      advertPriceString = 'low';
+    } else if (advertPrice > RANGE.min && advertPrice < RANGE.max) {
+      advertPriceString = 'middle';
+    } else if (advertPrice > RANGE.max){
+      advertPriceString = 'high';
+    }
+    isPrice = choosenPrice === advertPriceString;
+  }
+
+  if (choosenFeatures.length) {
+    if (advert.offer.features !== undefined) {
+      choosenFeatures.forEach((feature) => {
+        if (!advert.offer.features.includes(feature.value)) {
+          isFeatures = false;
+        }
+      });
+    } else { isFeatures = false; }
+  }
+
+  return isType && isPrice && isRooms && isGuests && isFeatures;
+};
+
+const getFilterChange = function (afterChange) {
+  filterAdvertsForm.addEventListener('change', () => {
+    afterChange();
+  });
+};
+
+export {deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, activateFiltersForm, setSubmitAdvertForm, setResetAdvertForm, successSendingMessage, errorSendingMessage};

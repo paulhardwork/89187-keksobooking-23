@@ -1,4 +1,3 @@
-import {createAdvertMarker, resetDocumentForms} from './map.js';
 import {successSendingMessage, errorSendingMessage} from './form.js';
 import {showServerErrorMessage} from './util.js';
 
@@ -6,7 +5,7 @@ const showMessage = function (block) {
   block.classList.remove('hidden');
 };
 
-const getData = function () {
+const getData = function (onSuccess) {
   fetch('https://23.javascript.pages.academy/keksobooking/data')
     .then ((response) => {
       if (response.ok) {
@@ -18,21 +17,20 @@ const getData = function () {
     })
     .then((response) => response.json())
     .then((adverts) => {
-      adverts.forEach((advert) => createAdvertMarker(advert));
+      onSuccess(adverts);
     })
     .catch((error) => showServerErrorMessage(error));
 };
 
 const sendData = function (body) {
-  fetch('https://23.javascript.pages.academy/keksbooking', {
+  fetch('https://23.javascript.pages.academy/keksobooking', {
     method: 'POST',
     body: body,
   })
     .then((response) => {
       if (response.ok) {
-        resetDocumentForms();
         showMessage(successSendingMessage);
-      } showMessage(errorSendingMessage);
+      } else { showMessage(errorSendingMessage); }
     })
     .catch(() => showMessage(errorSendingMessage));
 };
