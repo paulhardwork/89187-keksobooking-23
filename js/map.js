@@ -4,7 +4,7 @@ import {filterSimilarAdverts} from './form.js';
 
 const LAT_TOKYO = 35.68950;
 const LNG_TOKYO = 139.69171;
-const MARKERS_QUANTITY = 10;
+const MARKERS_QUANTITY = 12;
 
 deactivateDocument();
 
@@ -18,7 +18,7 @@ const cityMap = L.map('map-canvas')
   .setView({
     lat: LAT_TOKYO,
     lng: LNG_TOKYO,
-  }, 10);
+  }, MARKERS_QUANTITY);
 
 addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
 
