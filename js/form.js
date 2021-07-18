@@ -6,9 +6,10 @@ const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
 const SELECTED_QUANTITY_ROOMS = 1;
-const ROOMS_NOT_GUESTS = '100';
-const VALUE_FOR_HUNDRED_ROOMS = '0';
+const ROOMS_NOT_GUESTS = 100;
+const VALUE_FOR_HUNDRED_ROOMS = 0;
 
+const RANGE = {min: 10000, max: 50000};
 
 const filterAdvertsForm = document.querySelector('.map__filters');
 const filterAdvertsFields = filterAdvertsForm.children;
@@ -23,6 +24,9 @@ const advertTitleInput = document.querySelector('#title');
 const priceInput = document.querySelector('#price');
 const selecterRoomNumber = document.querySelector('#room_number');
 const selecterGuestQuantity = document.querySelector('#capacity');
+const selecterHouseType = document.querySelector('#type');
+const selecterTimeIn = document.querySelector('#timein');
+const selecterTimeOut = document.querySelector('#timeout');
 const optionsCapacity = selecterGuestQuantity.querySelectorAll('option');
 const resetFormButton = document.querySelector('.ad-form__reset');
 
@@ -63,10 +67,12 @@ const hideFormMessages = function () {
 
 const toggleOptionsCapacity = function (valueRooms) {
   for (let i = 0; i < optionsCapacity.length; i++) {
-    if (valueRooms === ROOMS_NOT_GUESTS) {
-      optionsCapacity[i].disabled = optionsCapacity[i].value !== VALUE_FOR_HUNDRED_ROOMS;
+    if (valueRooms === ROOMS_NOT_GUESTS.toString()) {
+      optionsCapacity[i].disabled = optionsCapacity[i].value !== VALUE_FOR_HUNDRED_ROOMS.toString();
+      selecterGuestQuantity.value = VALUE_FOR_HUNDRED_ROOMS.toString();
     } else {
-      optionsCapacity[i].disabled = optionsCapacity[i].value > selecterRoomNumber.value || optionsCapacity[i].value === VALUE_FOR_HUNDRED_ROOMS;
+      optionsCapacity[i].disabled = optionsCapacity[i].value > selecterRoomNumber.value || optionsCapacity[i].value === VALUE_FOR_HUNDRED_ROOMS.toString();
+      selecterGuestQuantity.value = SELECTED_QUANTITY_ROOMS.toString();
     }
   }
 };
@@ -82,6 +88,28 @@ advertTitleInput.addEventListener('input', () => {
   }
   advertTitleInput.reportValidity();
 });
+
+selecterHouseType.addEventListener('change', () => {
+  if (selecterHouseType.value === 'bungalow') {
+    priceInput.min = 0;
+    priceInput.placeholder = 0;
+  } else if (selecterHouseType.value === 'flat') {
+    priceInput.min = 1000;
+    priceInput.placeholder = 1000;
+  } else if (selecterHouseType.value === 'hotel') {
+    priceInput.min = 3000;
+    priceInput.placeholder = 3000;
+  } else if (selecterHouseType.value === 'house') {
+    priceInput.min = 5000;
+    priceInput.placeholder = 5000;
+  } else if (selecterHouseType.value === 'palace') {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+  }
+});
+
+selecterTimeIn.addEventListener('change', () => selecterTimeOut.value = selecterTimeIn.value);
+selecterTimeOut.addEventListener('change', () => selecterTimeIn.value = selecterTimeOut.value);
 
 priceInput.addEventListener('invalid', () => {
   if (priceInput.value > MAX_PRICE) {
@@ -124,17 +152,11 @@ const setSubmitAdvertForm = function (onSubmit) {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     sendData(formData);
-    resetDocumentForms();
     onSubmit();
   });
 };
 
 const filterSimilarAdverts = function (advert) {
-
-  const RANGE = {
-    min: 10000,
-    max: 50000,
-  };
 
   let isType = true;
   let isPrice = true;
