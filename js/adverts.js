@@ -14,13 +14,22 @@ const hideEmptyBlock = function (block) {
 
 const renderNewAdvert = function (advert) {
   const newAdvert = newAdvertsTemplate.cloneNode(true);
-  newAdvert.querySelector('.popup__avatar').src = advert.author.avatar;
-  newAdvert.querySelector('.popup__title').textContent = advert.offer.title;
-  newAdvert.querySelector('.popup__text--address').textContent = advert.offer.address;
-  newAdvert.querySelector('.popup__text--price').textContent = `${advert.offer.price} ₽/ночь`;
-  newAdvert.querySelector('.popup__type').textContent = buildingTypes[advert.offer.type];
-  newAdvert.querySelector('.popup__text--capacity').textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
-  newAdvert.querySelector('.popup__text--time').textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`;
+  const avatarAdvertBlock = newAdvert.querySelector('.popup__avatar');
+  const titleAdvertBlock = newAdvert.querySelector('.popup__title');
+  const addressAdvertBlock = newAdvert.querySelector('.popup__text--address');
+  const priceAdvertBlock = newAdvert.querySelector('.popup__text--price');
+  const typeAdvertBlock = newAdvert.querySelector('.popup__type');
+  const capacityAdvertBlock = newAdvert.querySelector('.popup__text--capacity');
+  const timeAdvertBlock = newAdvert.querySelector('.popup__text--time');
+  const descriptionAdvertBlock = newAdvert.querySelector('.popup__description');
+
+  (advert.author.avatar !== undefined) ? avatarAdvertBlock.src = advert.author.avatar : hideEmptyBlock(avatarAdvertBlock);
+  (advert.offer.title !== undefined) ? titleAdvertBlock.textContent = advert.offer.title : hideEmptyBlock(titleAdvertBlock);
+  (advert.offer.address !== undefined) ? addressAdvertBlock.textContent = advert.offer.address : hideEmptyBlock(addressAdvertBlock);
+  (advert.offer.price !== undefined) ? priceAdvertBlock.textContent = `${advert.offer.price} ₽/ночь` : hideEmptyBlock(priceAdvertBlock);
+  (advert.offer.type !== undefined) ? typeAdvertBlock.textContent = buildingTypes[advert.offer.type] : hideEmptyBlock(typeAdvertBlock);
+  ((advert.offer.rooms && advert.offer.guests) !== undefined) ? capacityAdvertBlock.textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей` : hideEmptyBlock(capacityAdvertBlock);
+  ((advert.offer.checkin && advert.offer.checkout) !== undefined) ? timeAdvertBlock.textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}` : hideEmptyBlock(timeAdvertBlock);
 
   const featureList = newAdvert.querySelector('.popup__features');
   const features = advert.offer.features;
@@ -34,7 +43,7 @@ const renderNewAdvert = function (advert) {
     });
   } else { hideEmptyBlock(featureList); }
 
-  newAdvert.querySelector('.popup__description').textContent = advert.offer.description;
+  (advert.offer.description !== undefined) ? descriptionAdvertBlock.textContent = advert.offer.description : hideEmptyBlock(descriptionAdvertBlock);
 
   const photosContainer = newAdvert.querySelector('.popup__photos');
   const photoElement = photosContainer.querySelector('.popup__photo');
@@ -52,12 +61,6 @@ const renderNewAdvert = function (advert) {
     }
   } else { hideEmptyBlock (photosContainer); }
 
-  const advertFields = newAdvert.children;
-  for (let index = 0; index < advertFields.length; index++) {
-    if ((advertFields[index].textContent === '' && advertFields[index].innerHTML === '' &&  advertFields[index].tagName !== 'IMG') || (advertFields[index].src === '' && advertFields[index].tagName === 'IMG')) {
-      advertFields[index].classList.add('hidden');
-    }
-  }
   return newAdvert;
 };
 

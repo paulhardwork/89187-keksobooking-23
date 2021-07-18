@@ -1,3 +1,4 @@
+import {resetDocumentForms} from './map.js';
 import {successSendingMessage, errorSendingMessage} from './form.js';
 import {showServerErrorMessage} from './util.js';
 
@@ -30,6 +31,7 @@ const sendData = function (body) {
     .then((response) => {
       if (response.ok) {
         showMessage(successSendingMessage);
+        resetDocumentForms();
       } else { showMessage(errorSendingMessage); }
     })
     .catch(() => showMessage(errorSendingMessage));
