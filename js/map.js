@@ -1,10 +1,14 @@
 import {renderNewAdvert} from './adverts.js';
 import {activateDocument, deactivateDocument} from './form.js';
-import {filterSimilarAdverts} from './form.js';
+import {filterSimilarAdverts, clearPreviewPhotos} from './form.js';
 
 const LAT_TOKYO = 35.68950;
 const LNG_TOKYO = 139.69171;
 const MARKERS_QUANTITY = 12;
+const SIZE_MAIN_MARKER = 52;
+const ANCHOR_MAIN_MARKER = 26;
+const SIZE_ADVERT_MARKER = 40;
+const ANCHOR_ADVERT_MARKER = 20;
 
 deactivateDocument();
 
@@ -31,8 +35,8 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [SIZE_MAIN_MARKER, SIZE_MAIN_MARKER],
+  iconAnchor: [ANCHOR_MAIN_MARKER, SIZE_MAIN_MARKER],
 });
 
 const mainMarker = L.marker(
@@ -59,8 +63,8 @@ const createAdvertMarker = function (advert) {
 
   const similarAdvertIcon = L.icon({
     iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [SIZE_ADVERT_MARKER , SIZE_ADVERT_MARKER],
+    iconAnchor: [ANCHOR_ADVERT_MARKER, SIZE_ADVERT_MARKER],
   });
 
   const similarAdvertMarker = L.marker(
@@ -83,6 +87,7 @@ const createAdvertMarker = function (advert) {
 const resetDocumentForms = function () {
   filterAdvertsForm.reset();
   addingAdvertForm.reset();
+  clearPreviewPhotos();
   mainMarker.setLatLng({
     lat: LAT_TOKYO,
     lng: LNG_TOKYO,
