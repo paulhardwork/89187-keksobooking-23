@@ -13,6 +13,9 @@ const MIN_PRICE_FLAT = 1000;
 const MIN_PRICE_HOTEL = 3000;
 const MIN_PRICE_HOUSE = 5000;
 const MIN_PRICE_PALACE = 10000;
+const AVATAR_TYPES = ['png', 'jpg', 'jpeg', 'gif'];
+const DEFAULT_AVATAR_PREVIEW = 'img/muffin-grey.svg';
+const DEFAULT_BACKGROUND_COLOR = '#e4e4de';
 
 const Range = {MIN: 10000, MAX: 50000};
 
@@ -22,8 +25,9 @@ const filterHousingTypeField = filterAdvertsForm.querySelector('#housing-type');
 const filterHousingPriceField = filterAdvertsForm.querySelector('#housing-price');
 const filterHousingRoomsField = filterAdvertsForm.querySelector('#housing-rooms');
 const filterHousingGuestsField = filterAdvertsForm.querySelector('#housing-guests');
-
 const addingAdvertForm = document.querySelector('.ad-form');
+const advertAvatarField = document.querySelector('#avatar');
+const advertPreviewAvatar = document.querySelector('.ad-form-header__preview img');
 const addingAdvertFields = addingAdvertForm.querySelectorAll('fieldset');
 const advertTitleInput = document.querySelector('#title');
 const priceInput = document.querySelector('#price');
@@ -32,6 +36,8 @@ const selecterGuestQuantity = document.querySelector('#capacity');
 const selecterHouseType = document.querySelector('#type');
 const selecterTimeIn = document.querySelector('#timein');
 const selecterTimeOut = document.querySelector('#timeout');
+const advertPhotoField  = document.querySelector('#images');
+const previewPhotoContainer = document.querySelector('.ad-form__photo');
 const optionsCapacity = selecterGuestQuantity.querySelectorAll('option');
 const resetFormButton = document.querySelector('.ad-form__reset');
 
@@ -64,6 +70,11 @@ const hideFormMessages = function () {
   }
 };
 
+const clearPreviewPhotos = () => {
+  advertPreviewAvatar.src = DEFAULT_AVATAR_PREVIEW;
+  previewPhotoContainer.style.background = DEFAULT_BACKGROUND_COLOR;
+};
+
 const initForm = function () {
   document.body.append(successSendingMessage);
   successSendingMessage.classList.add('hidden');
@@ -82,6 +93,23 @@ const initForm = function () {
       }
     }
   };
+
+  advertAvatarField.addEventListener('change', () => {
+    const avatarImage = advertAvatarField.files[0];
+    const avatarName = avatarImage.name.toLowerCase();
+
+    const matches = AVATAR_TYPES.some((element) => avatarName.endsWith(element));
+
+    if (matches) {
+      const avatarFileReader = new FileReader();
+
+      avatarFileReader.addEventListener('load', () => {
+        advertPreviewAvatar.src = avatarFileReader.result;
+      });
+
+      avatarFileReader.readAsDataURL(avatarImage);
+    }
+  });
 
   advertTitleInput.addEventListener('input', () => {
     const valueLength = advertTitleInput.value.length;
@@ -122,6 +150,23 @@ const initForm = function () {
       priceInput.setCustomValidity(`Цена не может превышать ${MAX_PRICE} рублей за ночь!`);
     } else {
       priceInput.setCustomValidity('');
+    }
+  });
+
+  advertPhotoField.addEventListener('change', () => {
+    const photoImage = advertPhotoField.files[0];
+    const photoName = photoImage.name.toLowerCase();
+
+    const matches = AVATAR_TYPES.some((element) => photoName.endsWith(element));
+
+    if (matches) {
+      const photoFileReader = new FileReader();
+
+      photoFileReader.addEventListener('load', () => {
+        previewPhotoContainer.style.background = `center / 100% auto no-repeat url(${photoFileReader.result})`;
+      });
+
+      photoFileReader.readAsDataURL(photoImage);
     }
   });
 
@@ -221,4 +266,4 @@ const getFilterChange = function (afterChange) {
   });
 };
 
-export {initForm, deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, activateFiltersForm, setSubmitAdvertForm, setResetAdvertForm, successSendingMessage, errorSendingMessage};
+export {initForm, deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, activateFiltersForm, setSubmitAdvertForm, setResetAdvertForm, clearPreviewPhotos, successSendingMessage, errorSendingMessage};
