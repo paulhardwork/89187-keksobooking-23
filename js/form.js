@@ -67,16 +67,27 @@ const clearPreviewPhotos = () => {
   previewPhotoContainer.style.background = DEFAULT_BACKGROUND_COLOR;
 };
 
+const hideFormMessages = () => {
+  if (!successSendingMessage.classList.contains('hidden')) {
+    successSendingMessage.classList.add('hidden');
+  } else if (!errorSendingMessage.classList.contains('hidden')) {
+    errorSendingMessage.classList.add('hidden');
+  }
+};
+
+const onClickStatusMessage = () => {
+  hideFormMessages();
+  document.removeEventListener('click', onClickStatusMessage);
+};
+
+const onEscPushStatusMessage = (evt) => {
+  if (isEscEvent(evt)) {
+    hideFormMessages();
+  }
+  document.removeEventListener('keydown', onEscPushStatusMessage);
+};
+
 const initForm = () => {
-
-  const hideFormMessages = () => {
-    if (!successSendingMessage.classList.contains('hidden')) {
-      successSendingMessage.classList.add('hidden');
-    } else if (!errorSendingMessage.classList.contains('hidden')) {
-      errorSendingMessage.classList.add('hidden');
-    }
-  };
-
   document.body.append(successSendingMessage);
   successSendingMessage.classList.add('hidden');
 
@@ -173,25 +184,9 @@ const initForm = () => {
 
   toggleOptionsCapacity(SELECTED_QUANTITY_ROOMS);
 
-  const onClickStatusMessage = () => {
-    hideFormMessages();
-    document.removeEventListener('click', onClickStatusMessage);
-  };
-
-  const onEscPushStatusMessage = (evt) => {
-    if (isEscEvent(evt)) {
-      hideFormMessages();
-      document.removeEventListener('keydown', onEscPushStatusMessage);
-    }
-  };
-
   selecterRoomNumber.addEventListener('change', () => {
     toggleOptionsCapacity(selecterRoomNumber.value);
   });
-
-  document.addEventListener('click', onClickStatusMessage);
-
-  document.addEventListener('keydown', onEscPushStatusMessage);
 
   errorMessageButton.addEventListener('click', () => {
     errorSendingMessage.classList.add('hidden');
@@ -273,4 +268,4 @@ const getFilterChange = (afterChange) => {
   });
 };
 
-export {initForm, deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, activateFiltersForm, setSubmitAdvertForm, setResetAdvertForm, clearPreviewPhotos, successSendingMessage, errorSendingMessage};
+export {initForm, deactivateDocument, activateDocument, filterSimilarAdverts, getFilterChange, activateFiltersForm, setSubmitAdvertForm, setResetAdvertForm, clearPreviewPhotos, onClickStatusMessage, onEscPushStatusMessage, successSendingMessage, errorSendingMessage};

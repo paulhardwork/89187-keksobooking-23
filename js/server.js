@@ -1,9 +1,11 @@
 import {resetDocumentForms} from './map.js';
-import {successSendingMessage, errorSendingMessage} from './form.js';
+import {successSendingMessage, errorSendingMessage, onClickStatusMessage, onEscPushStatusMessage} from './form.js';
 import {showServerErrorMessage} from './util.js';
 
 const showMessage = (block) => {
   block.classList.remove('hidden');
+  document.addEventListener('click', onClickStatusMessage);
+  document.addEventListener('keydown', onEscPushStatusMessage);
 };
 
 const getData = (onSuccess) => {

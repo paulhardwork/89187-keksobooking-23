@@ -55,7 +55,7 @@ const getRandomList = (array) => {
   return array.slice(leftBorderNewArray, rightBorderNewArray + 1);
 };
 
-const isEscEvent = (evt) => { evt.key === 'Escape' || evt.key === 'Esc'; };
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const showServerErrorMessage = (message) => {
   const alertContainer = document.createElement('div');
