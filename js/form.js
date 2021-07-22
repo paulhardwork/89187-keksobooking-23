@@ -142,8 +142,8 @@ const initForm = function () {
     }
   });
 
-  selecterTimeIn.addEventListener('change', () => selecterTimeOut.value = selecterTimeIn.value);
-  selecterTimeOut.addEventListener('change', () => selecterTimeIn.value = selecterTimeOut.value);
+  selecterTimeIn.addEventListener('change', () => { selecterTimeOut.value = selecterTimeIn.value; });
+  selecterTimeOut.addEventListener('change', () => { selecterTimeIn.value = selecterTimeOut.value; });
 
   priceInput.addEventListener('invalid', () => {
     if (priceInput.value > MAX_PRICE) {
@@ -172,19 +172,25 @@ const initForm = function () {
 
   toggleOptionsCapacity(SELECTED_QUANTITY_ROOMS);
 
+  const onClickStatusMessage = () => {
+    hideFormMessages();
+    document.removeEventListener('click', onClickStatusMessage);
+  };
+
+  const onEscPushStatusMessage = (evt) => {
+    if (isEscEvent(evt)) {
+      hideFormMessages();
+      document.removeEventListener('keydown', onEscPushStatusMessage);
+    }
+  };
+
   selecterRoomNumber.addEventListener('change', () => {
     toggleOptionsCapacity(selecterRoomNumber.value);
   });
 
-  document.addEventListener('click', () => {
-    hideFormMessages();
-  });
+  document.addEventListener('click', onClickStatusMessage);
 
-  document.addEventListener('keydown', (evt) => {
-    if( isEscEvent(evt) ) {
-      hideFormMessages();
-    }
-  });
+  document.addEventListener('keydown', onEscPushStatusMessage);
 
   errorMessageButton.addEventListener('click', () => {
     errorSendingMessage.classList.add('hidden');
