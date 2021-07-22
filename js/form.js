@@ -41,17 +41,17 @@ const previewPhotoContainer = document.querySelector('.ad-form__photo');
 const optionsCapacity = selecterGuestQuantity.querySelectorAll('option');
 const resetFormButton = document.querySelector('.ad-form__reset');
 
-const activateDocument = function () {
+const activateDocument = () => {
   addingAdvertForm.classList.remove('ad-form--disabled');
   addingAdvertFields.disabled = false;
 };
 
-const activateFiltersForm = function () {
+const activateFiltersForm = () => {
   filterAdvertsForm.classList.remove('map__filters--disabled');
   filterAdvertsFields.disabled = false;
 };
 
-const deactivateDocument = function () {
+const deactivateDocument = () => {
   addingAdvertForm.classList.add('ad-form--disabled');
   addingAdvertFields.disabled = true;
   filterAdvertsForm.classList.add('map__filters--disabled');
@@ -62,27 +62,28 @@ const successSendingMessage = document.querySelector('#success').content.querySe
 const errorSendingMessage = document.querySelector('#error').content.querySelector('.error');
 const errorMessageButton = errorSendingMessage.querySelector('.error__button');
 
-const hideFormMessages = function () {
-  if (!successSendingMessage.classList.contains('hidden')) {
-    successSendingMessage.classList.add('hidden');
-  } else if (!errorSendingMessage.classList.contains('hidden')) {
-    errorSendingMessage.classList.add('hidden');
-  }
-};
-
 const clearPreviewPhotos = () => {
   advertPreviewAvatar.src = DEFAULT_AVATAR_PREVIEW;
   previewPhotoContainer.style.background = DEFAULT_BACKGROUND_COLOR;
 };
 
-const initForm = function () {
+const initForm = () => {
+
+  const hideFormMessages = () => {
+    if (!successSendingMessage.classList.contains('hidden')) {
+      successSendingMessage.classList.add('hidden');
+    } else if (!errorSendingMessage.classList.contains('hidden')) {
+      errorSendingMessage.classList.add('hidden');
+    }
+  };
+
   document.body.append(successSendingMessage);
   successSendingMessage.classList.add('hidden');
 
   document.body.append(errorSendingMessage);
   errorSendingMessage.classList.add('hidden');
 
-  const toggleOptionsCapacity = function (valueRooms) {
+  const toggleOptionsCapacity = (valueRooms) => {
     for (let i = 0; i < optionsCapacity.length; i++) {
       if (valueRooms === ROOMS_NOT_GUESTS.toString()) {
         optionsCapacity[i].disabled = optionsCapacity[i].value !== VALUE_FOR_HUNDRED_ROOMS.toString();
@@ -197,7 +198,7 @@ const initForm = function () {
   });
 };
 
-const setResetAdvertForm = function (onReset) {
+const setResetAdvertForm = (onReset) => {
   resetFormButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     resetDocumentForms();
@@ -205,7 +206,7 @@ const setResetAdvertForm = function (onReset) {
   });
 };
 
-const setSubmitAdvertForm = function (onSubmit) {
+const setSubmitAdvertForm = (onSubmit) => {
   addingAdvertForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
@@ -214,7 +215,7 @@ const setSubmitAdvertForm = function (onSubmit) {
   });
 };
 
-const filterSimilarAdverts = function (advert) {
+const filterSimilarAdverts = (advert) => {
 
   let isType = true;
   let isPrice = true;
@@ -266,7 +267,7 @@ const filterSimilarAdverts = function (advert) {
   return isType && isPrice && isRooms && isGuests && isFeatures;
 };
 
-const getFilterChange = function (afterChange) {
+const getFilterChange = (afterChange) => {
   filterAdvertsForm.addEventListener('change', () => {
     afterChange();
   });

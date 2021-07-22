@@ -8,11 +8,11 @@ const buildingTypes = {
   hotel: 'Отель',
 };
 
-const hideEmptyBlock = function (block) {
+const hideEmptyBlock = (block) => {
   block.classList.add('hidden');
 };
 
-const renderNewAdvert = function (advert) {
+const renderNewAdvert = (advert) => {
   const newAdvert = newAdvertsTemplate.cloneNode(true);
   const avatarAdvertBlock = newAdvert.querySelector('.popup__avatar');
   const titleAdvertBlock = newAdvert.querySelector('.popup__title');

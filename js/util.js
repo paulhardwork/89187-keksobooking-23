@@ -7,7 +7,7 @@ const ALERT_SHOW_TIME = 5000;
  * @param {Number} afterComma
  * @return {Number}
  */
-const getRandomNumber = function (min, max, afterComma) {
+const getRandomNumber = (min, max, afterComma) => {
   min = Math.abs(min);
   max = Math.abs(max);
   if (min >= max) {
@@ -24,9 +24,7 @@ const getRandomNumber = function (min, max, afterComma) {
  * @param {Number} max
  * @return {Number}
  */
-const getRandomIntegerNumber = function (min, max) {
-  return getRandomNumber(min, max);
-};
+const getRandomIntegerNumber = (min, max) => getRandomNumber(min, max);
 
 /**
  * Получаем случайный элемент из входного массива
@@ -34,7 +32,7 @@ const getRandomIntegerNumber = function (min, max) {
  * @param {Array} array
  * @return {any}
  */
-const getRandomArrayElement = function (array) {
+const getRandomArrayElement = (array) => {
   const elementNumber = getRandomIntegerNumber(0, array.length - 1);
   return array[elementNumber];
 };
@@ -45,7 +43,7 @@ const getRandomArrayElement = function (array) {
  * @param {Array} array
  * @return {Array}
  */
-const getRandomList = function (array) {
+const getRandomList = (array) => {
   let leftBorderNewArray = getRandomIntegerNumber(0, array.length - 1);
   let rightBorderNewArray = getRandomIntegerNumber(0, array.length - 1);
   if (rightBorderNewArray < leftBorderNewArray) {
@@ -57,11 +55,9 @@ const getRandomList = function (array) {
   return array.slice(leftBorderNewArray, rightBorderNewArray + 1);
 };
 
-const isEscEvent = function (evt) {
-  return evt.key === 'Escape' || evt.key === 'Esc';
-};
+const isEscEvent = (evt) => { evt.key === 'Escape' || evt.key === 'Esc'; };
 
-const showServerErrorMessage = function (message) {
+const showServerErrorMessage = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';

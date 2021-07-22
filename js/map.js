@@ -57,7 +57,7 @@ mainMarker.on('moveend', (evt) => {
 
 const allMarkers = L.layerGroup().addTo(cityMap);
 
-const createAdvertMarker = function (advert) {
+const createAdvertMarker = (advert) => {
   const lat = advert.location.lat;
   const lng = advert.location.lng;
 
@@ -84,7 +84,7 @@ const createAdvertMarker = function (advert) {
     );
 };
 
-const resetDocumentForms = function () {
+const resetDocumentForms = () => {
   filterAdvertsForm.reset();
   addingAdvertForm.reset();
   clearPreviewPhotos();
@@ -95,7 +95,7 @@ const resetDocumentForms = function () {
   addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
 };
 
-const renderActualMarkers = function (adverts) {
+const renderActualMarkers = (adverts) => {
   allMarkers.clearLayers();
   adverts.filter(filterSimilarAdverts)
     .slice(0, MARKERS_QUANTITY)

@@ -2,11 +2,11 @@ import {resetDocumentForms} from './map.js';
 import {successSendingMessage, errorSendingMessage} from './form.js';
 import {showServerErrorMessage} from './util.js';
 
-const showMessage = function (block) {
+const showMessage = (block) => {
   block.classList.remove('hidden');
 };
 
-const getData = function (onSuccess) {
+const getData = (onSuccess) => {
   fetch('https://23.javascript.pages.academy/keksobooking/data')
     .then ((response) => {
       if (response.ok) {
@@ -23,7 +23,7 @@ const getData = function (onSuccess) {
     .catch((error) => showServerErrorMessage(error));
 };
 
-const sendData = function (body) {
+const sendData = (body) => {
   fetch('https://23.javascript.pages.academy/keksobooking', {
     method: 'POST',
     body: body,
